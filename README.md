@@ -33,8 +33,8 @@ Ensure you have the following installed:
 
 
    ```bash
-   git clone https://github.com/yourusername/expenditure-tracker.git
-   cd expenditure-tracker
+   git clone https://github.com/manav4code/IncomEx.git
+   cd <dirname>
    ```
 
 

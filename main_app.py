@@ -57,27 +57,27 @@ with tab3:
     
     # Savings Tracker
     st.subheader("Savings Tracker")
+
+    # Calculate total income, total expenditure, and savings
     total_income = incomes['Amount'].sum()
     total_expenditure = expenditures['Amount'].sum()
     savings = total_income - total_expenditure
 
-    st.metric("Total Income", f"₹{total_income:.2f}")
-    st.metric("Total Expenditure", f"₹{total_expenditure:.2f}")
-    st.metric("Savings", f"₹{savings:.2f}")
+    # Display the metrics horizontally using columns
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Income", f"₹{total_income:,.2f}")
+    col2.metric("Total Expenditure", f"₹{total_expenditure:,.2f}")
+    col3.metric("Savings", f"₹{savings:,.2f}")
 
-    # Display and update savings goal
-    budget = st.number_input(
-        "Enter your expected savings goal:",
-        min_value=0.0,
-        value=st.session_state.savings_goal,
-        format="%.2f"
-    )
+    # Load existing savings goal
+    initial_goal = load_savings_goal()
+    budget = st.number_input("Enter your expected savings goal:", min_value=0.0, value=initial_goal, format="%.2f")
 
     # Save new savings goal if it has changed
-    if budget != st.session_state.savings_goal:
-        st.session_state.savings_goal = budget
+    if budget != initial_goal:
         save_savings_goal(budget)
-    
+
+    # Display progress towards savings goal
     if budget > 0:
         progress = int((savings / budget) * 100)
         progress = min(progress, 100)

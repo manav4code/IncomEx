@@ -98,6 +98,15 @@ def plot_daily_expenses(start_date, end_date, data):
         ax.set_ylabel('Amount')
         st.pyplot(fig)
 
+         # Calculate average and maximum expenses per category
+        if not filtered_data.empty:
+            category_stats = filtered_data.groupby('Category')['Amount'].agg(['mean', 'max']).rename(columns={'mean': 'Avg', 'max': 'Max'})
+            category_stats = category_stats.reset_index()
+
+            # Display the category statistics table
+            st.subheader("Expense per Category")
+            st.table(category_stats.style.format({'Avg': '{:.2f}', 'Max': '{:.2f}'}))
+
 def display_savings_tracker(incomes, expenditures):
     total_income = incomes['Amount'].sum()
     total_expenditure = expenditures['Amount'].sum()

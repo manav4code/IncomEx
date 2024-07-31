@@ -3,6 +3,7 @@ from data_manager import load_data, save_data, update_daily_expenses, download_e
 from entry_handler import add_entry_form
 from visualization import plot_pie_charts, plot_daily_expenses
 from savings_manager import load_savings_goal, save_savings_goal
+from datetime import datetime, timedelta
 
 # Set the layout to wide
 st.set_page_config(layout="wide")
@@ -51,8 +52,13 @@ with tab3:
     plot_pie_charts(incomes, expenditures)
     
     st.subheader("Day-to-Day Expenditure")
-    start_date = st.date_input("Start Date")
-    end_date = st.date_input("End Date")
+    # Calculate default start and end dates
+    default_start_date = datetime.today() - timedelta(days=15)
+    default_end_date = datetime.today() + timedelta(days=14)
+
+    # Get user input for date range with defaults
+    start_date = st.date_input("Start Date", value=default_start_date)
+    end_date = st.date_input("End Date", value=default_end_date)
     plot_daily_expenses(start_date, end_date, data)
     
     # Savings Tracker

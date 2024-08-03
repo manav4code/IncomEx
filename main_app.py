@@ -28,7 +28,9 @@ with tab2:
     st.header("Ledger")
     data = load_data()
     incomes = data[data['Type'] == 'Income']
+    incomes.index = [(i + 1) for i in range(len(incomes))]
     expenditures = data[data['Type'] == 'Expenditure']
+    expenditures.index = [(i + 1) for i in range(len(expenditures))]
 
     col1, col2 = st.columns(2)
     with col1:

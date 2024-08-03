@@ -1,13 +1,20 @@
 import streamlit as st
-from data_manager import *
+import pandas as pd
+from data_manager import load_data, save_data
 
 def add_entry_form():
+    # Initialize session state variables if they do not exist
+    if 'description' not in st.session_state:
+        st.session_state['description'] = ''
+    if 'amount' not in st.session_state:
+        st.session_state['amount'] = 0.0
+
     entry_type = st.selectbox("Entry Type", ["Income", "Expenditure"], key='entry_type')
 
     if entry_type == "Income":
         category = st.selectbox("Category", ["Salary", "Freelance", "Investments", "Others"])
     else:
-        category = st.selectbox("Category", ["Food", "Transport", "Utilities", "Entertainment", "Others"])
+        category = st.selectbox("Category", ["Food", "Transport", "Utilities", "Entertainment", "Charity", "Others"])
 
     date = st.date_input("Date")
     description = st.text_input("Description", key="description")
@@ -15,7 +22,7 @@ def add_entry_form():
     submit_button = st.button(label='Add Entry')
 
     if submit_button:
-        data = load_data()
+        data = load_data()  # This function should be defined elsewhere to load your data
         new_data = pd.DataFrame({
             'Date': [date],
             'Type': [entry_type],
@@ -24,7 +31,6 @@ def add_entry_form():
             'Amount': [amount]
         })
         data = pd.concat([data, new_data], ignore_index=True)
-        save_data(data)
+        save_data(data)  # This function should be defined elsewhere to save your data
         st.success(f"{entry_type} added successfully!")
-        st.session_state['description'] = ''
-        st.session_state['amount'] = 0.0
+
